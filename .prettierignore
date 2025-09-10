@@ -1,0 +1,37 @@
+# Dependencies
+node_modules
+.pnpm-store
+
+# Next.js build outputs
+.next
+out
+.build
+.dist
+dist
+.turbo
+.vercel
+
+# Coverage & logs
+coverage
+*.log
+
+# Supabase local artifacts
+auth.debug
+supabase/.temp
+.supabase
+
+# Generated files
+next-env.d.ts
+src/types/supabase.ts
+
+# Asset outputs
+public/**/*.min.*
+
+# OS/editor
+.DS_Store
+.vscode
+.idea
+
+# Env files
+.env*
+
