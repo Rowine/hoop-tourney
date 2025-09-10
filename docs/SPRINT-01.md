@@ -18,7 +18,7 @@ policies.
 
 ### Feature: Foundation & Configuration
 
-- [ ] Initialize Next.js project with TypeScript and App Router
+- [x] Initialize Next.js project with TypeScript and App Router
 - [ ] Install and configure shadcn/ui components
 - [ ] Set up Zustand for state management
 - [ ] Configure TanStack Query for data fetching
