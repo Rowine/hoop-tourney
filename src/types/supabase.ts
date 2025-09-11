@@ -14,18 +14,27 @@ export type Database = {
   }
   public: {
     Tables: {
-      instruments: {
+      users: {
         Row: {
-          id: number
+          created_at: string | null
+          email: string
+          id: string
           name: string
+          role: string
         }
         Insert: {
-          id?: never
+          created_at?: string | null
+          email: string
+          id: string
           name: string
+          role: string
         }
         Update: {
-          id?: never
+          created_at?: string | null
+          email?: string
+          id?: string
           name?: string
+          role?: string
         }
         Relationships: []
       }
@@ -34,7 +43,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      update_user_role: {
+        Args: { new_role: string; user_id: string }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never
