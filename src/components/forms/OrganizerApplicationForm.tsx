@@ -111,21 +111,22 @@ export function OrganizerApplicationForm() {
   }
 
   return (
-    <Card className="mx-auto w-full max-w-md">
-      <CardHeader>
-        <div className="flex items-center justify-between">
-          <div>
-            <CardTitle>Apply to Become an Organizer</CardTitle>
-            <CardDescription>
-              Tell us why you want to organize tournaments and share your relevant experience
+    <Card className="mx-auto w-full max-w-lg">
+      <CardHeader className="space-y-2">
+        <div className="flex items-start justify-between gap-4">
+          <div className="space-y-1">
+            <CardTitle className="text-xl">Apply to Become an Organizer</CardTitle>
+            <CardDescription className="text-sm leading-relaxed">
+              Tell us why you want to organize tournaments and share your relevant experience. We
+              review every application carefully.
             </CardDescription>
           </div>
           <Button
             type="button"
-            variant="outline"
+            variant="ghost"
             size="sm"
             onClick={handleBackToRegistration}
-            className="flex items-center gap-2"
+            className="mt-1 flex items-center gap-2"
           >
             <ArrowLeft className="h-4 w-4" />
             Back
@@ -133,9 +134,9 @@ export function OrganizerApplicationForm() {
         </div>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           {error && (
-            <Alert variant="destructive">
+            <Alert variant="destructive" className="text-sm">
               <AlertDescription>{error}</AlertDescription>
             </Alert>
           )}
@@ -145,16 +146,15 @@ export function OrganizerApplicationForm() {
             <Textarea
               id="application_reason"
               {...register('application_reason')}
-              placeholder="Please explain why you want to become an organizer and what you hope to achieve..."
-              className="min-h-[100px]"
+              placeholder="Share your motivation, goals, and how you'll add value to the community."
+              className="min-h-[140px] resize-y text-base leading-relaxed"
               disabled={isLoading}
             />
-            {errors.application_reason && (
+            {errors.application_reason ? (
               <p className="text-sm text-red-500">{errors.application_reason.message}</p>
+            ) : (
+              <p className="text-muted-foreground text-xs">10–500 characters</p>
             )}
-            <p className="text-muted-foreground text-xs">
-              Minimum 10 characters, maximum 500 characters
-            </p>
           </div>
 
           <div className="space-y-2">
@@ -162,29 +162,27 @@ export function OrganizerApplicationForm() {
             <Textarea
               id="experience_description"
               {...register('experience_description')}
-              placeholder="Describe any relevant experience you have with organizing events, managing tournaments, or similar activities..."
-              className="min-h-[100px]"
+              placeholder="Tell us about events you've organized or any related experience."
+              className="min-h-[140px] resize-y text-base leading-relaxed"
               disabled={isLoading}
             />
-            {errors.experience_description && (
+            {errors.experience_description ? (
               <p className="text-sm text-red-500">{errors.experience_description.message}</p>
+            ) : (
+              <p className="text-muted-foreground text-xs">Up to 1000 characters</p>
             )}
-            <p className="text-muted-foreground text-xs">
-              Minimum 10 characters, maximum 1000 characters
-            </p>
           </div>
 
-          <div className="rounded-lg bg-blue-50 p-4">
-            <h4 className="mb-2 font-medium text-blue-900">What happens next?</h4>
-            <ul className="space-y-1 text-sm text-blue-800">
-              <li>• Your application will be reviewed by an admin</li>
-              <li>• You'll be notified of the decision via email</li>
-              <li>• If approved, you'll gain organizer privileges</li>
-              <li>• You can check your application status in your dashboard</li>
+          <div className="bg-muted/10 rounded-lg border p-5">
+            <h4 className="mb-2 text-sm font-medium">What happens next?</h4>
+            <ul className="text-muted-foreground list-disc space-y-1 pl-5 text-sm">
+              <li>Your application will be reviewed by an admin</li>
+              <li>If approved, you'll gain organizer privileges</li>
+              <li>You can check your application status in your dashboard</li>
             </ul>
           </div>
 
-          <Button type="submit" className="w-full" disabled={isLoading}>
+          <Button type="submit" className="w-full py-6" disabled={isLoading}>
             {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             Submit Application
           </Button>
