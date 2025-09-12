@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { registerUserSchema, RegisterUserInput } from '@/lib/validators/auth';
-import { registerUser } from '@/lib/supabase/auth-client';
+import { registerUser } from '@/features/auth/api/client';
 import { USER_ROLES, ROLE_DESCRIPTIONS } from '@/types/user';
 import { useRegistrationActions } from '@/stores/registrationStore';
 import { Button } from '@/components/ui/button';

@@ -1,4 +1,4 @@
-import { createClient as createServerClient } from './server';
+import { createClient as createServerClient } from '../../../lib/supabase/server';
 import { User, UserRole } from '@/types/user';
 import { cookies } from 'next/headers';
 

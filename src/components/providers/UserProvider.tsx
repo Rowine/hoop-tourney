@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { useUserStore } from '@/stores/userStore';
-import { getCurrentUserClient } from '@/lib/supabase/auth-client';
+import { getCurrentUserClient } from '@/features/auth/api/client';
 
 export function UserProvider({ children }: { children: React.ReactNode }) {
   const { setUser, setLoading } = useUserStore();

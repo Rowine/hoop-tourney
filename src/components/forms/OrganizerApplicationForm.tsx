@@ -3,8 +3,8 @@ import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { organizerApplicationSchema, OrganizerApplicationInput } from '@/lib/validators/auth';
-import { createOrganizerApplication } from '@/lib/supabase/organizer-application-actions';
-import { registerUser } from '@/lib/supabase/auth-client';
+import { createOrganizerApplication } from '@/features/organizer-application/server/actions';
+import { registerUser } from '@/features/auth/api/client';
 import {
   usePendingRegistration,
   useHasPendingRegistration,
@@ -73,7 +73,7 @@ export function OrganizerApplicationForm() {
       // Redirect to dashboard after 2 seconds
       setTimeout(() => {
         router.push('/dashboard');
-      }, 2000);
+      }, 5000);
     } catch (err) {
       setError(
         err instanceof Error ? err.message : 'Application submission failed. Please try again.',

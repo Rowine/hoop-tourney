@@ -1,6 +1,6 @@
 'use server';
 
-import { createClient } from './server';
+import { createClient } from '@/lib/supabase/server';
 import { cookies } from 'next/headers';
 import { OrganizerApplicationInput } from '@/lib/validators/auth';
 import { OrganizerApplication, ApplicationStatus } from '@/types/organizer-application';

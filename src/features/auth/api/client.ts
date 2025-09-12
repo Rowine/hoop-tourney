@@ -1,5 +1,5 @@
-import { createClient as createBrowserClient } from './client';
-import { RegisterUserInput, LoginUserInput } from '../validators/auth';
+import { createClient as createBrowserClient } from '../../../lib/supabase/client';
+import { RegisterUserInput, LoginUserInput } from '../../../lib/validators/auth';
 import { User, USER_ROLES, UserRole } from '@/types/user';
 
 export async function registerUser(input: RegisterUserInput) {

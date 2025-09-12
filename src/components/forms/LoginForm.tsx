@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginUserSchema, LoginUserInput } from '@/lib/validators/auth';
-import { loginUser } from '@/lib/supabase/auth-client';
+import { loginUser } from '@/features/auth/api/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -34,19 +34,19 @@ export function LoginForm() {
       await loginUser(data);
       router.push('/dashboard');
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An unexpected error occurred. Please try again.');
+      setError(
+        err instanceof Error ? err.message : 'An unexpected error occurred. Please try again.',
+      );
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <Card className="w-full max-w-md mx-auto">
+    <Card className="mx-auto w-full max-w-md">
       <CardHeader>
         <CardTitle>Sign In</CardTitle>
-        <CardDescription>
-          Enter your credentials to access your account
-        </CardDescription>
+        <CardDescription>Enter your credentials to access your account</CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -65,9 +65,7 @@ export function LoginForm() {
               placeholder="Enter your email"
               disabled={isLoading}
             />
-            {errors.email && (
-              <p className="text-sm text-red-500">{errors.email.message}</p>
-            )}
+            {errors.email && <p className="text-sm text-red-500">{errors.email.message}</p>}
           </div>
 
           <div className="space-y-2">
@@ -79,9 +77,7 @@ export function LoginForm() {
               placeholder="Enter your password"
               disabled={isLoading}
             />
-            {errors.password && (
-              <p className="text-sm text-red-500">{errors.password.message}</p>
-            )}
+            {errors.password && <p className="text-sm text-red-500">{errors.password.message}</p>}
           </div>
 
           <Button type="submit" className="w-full" disabled={isLoading}>
