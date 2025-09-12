@@ -1,4 +1,4 @@
-import { OrganizerApplicationForm } from '@/components/forms/OrganizerApplicationForm';
+import { OrganizerApplicationForm } from '@/features/organizer-application/components/OrganizerApplicationForm';
 
 export default function OrganizerApplicationPage() {
   return (
