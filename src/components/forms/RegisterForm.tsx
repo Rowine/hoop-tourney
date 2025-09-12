@@ -6,10 +6,17 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { registerUserSchema, RegisterUserInput } from '@/lib/validators/auth';
 import { registerUser } from '@/lib/supabase/auth-client';
 import { USER_ROLES, ROLE_DESCRIPTIONS } from '@/types/user';
+import { useRegistrationActions } from '@/stores/registrationStore';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Loader2 } from 'lucide-react';
@@ -19,6 +26,8 @@ export function RegisterForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
+
+  const { setPendingRegistration } = useRegistrationActions();
 
   const {
     register,
@@ -40,13 +49,13 @@ export function RegisterForm() {
     setError(null);
 
     try {
-      await registerUser(data);
-
-      // If user selected organizer role, redirect to application page
       if (data.role === USER_ROLES.ORGANIZER) {
+        // For organizer: store registration data and redirect to application form
+        setPendingRegistration(data);
         router.push('/organizer-application');
       } else {
-        // Redirect to dashboard for other roles
+        // For other roles: register immediately
+        await registerUser(data);
         router.push('/dashboard');
       }
     } catch (err) {
@@ -57,7 +66,7 @@ export function RegisterForm() {
   };
 
   return (
-    <Card className="w-full max-w-md mx-auto">
+    <Card className="mx-auto w-full max-w-md">
       <CardHeader>
         <CardTitle>Create Account</CardTitle>
         <CardDescription>
@@ -80,9 +89,7 @@ export function RegisterForm() {
               placeholder="Enter your full name"
               disabled={isLoading}
             />
-            {errors.name && (
-              <p className="text-sm text-red-500">{errors.name.message}</p>
-            )}
+            {errors.name && <p className="text-sm text-red-500">{errors.name.message}</p>}
           </div>
 
           <div className="space-y-2">
@@ -94,9 +101,7 @@ export function RegisterForm() {
               placeholder="Enter your email"
               disabled={isLoading}
             />
-            {errors.email && (
-              <p className="text-sm text-red-500">{errors.email.message}</p>
-            )}
+            {errors.email && <p className="text-sm text-red-500">{errors.email.message}</p>}
           </div>
 
           <div className="space-y-2">
@@ -108,9 +113,7 @@ export function RegisterForm() {
               placeholder="Create a password"
               disabled={isLoading}
             />
-            {errors.password && (
-              <p className="text-sm text-red-500">{errors.password.message}</p>
-            )}
+            {errors.password && <p className="text-sm text-red-500">{errors.password.message}</p>}
           </div>
 
           <div className="space-y-2">
@@ -128,7 +131,7 @@ export function RegisterForm() {
                   <SelectItem key={value} value={value}>
                     <div className="flex flex-col">
                       <span className="font-medium capitalize">{value}</span>
-                      <span className="text-xs text-muted-foreground">
+                      <span className="text-muted-foreground text-xs">
                         {ROLE_DESCRIPTIONS[value]}
                       </span>
                     </div>
@@ -136,9 +139,7 @@ export function RegisterForm() {
                 ))}
               </SelectContent>
             </Select>
-            {errors.role && (
-              <p className="text-sm text-red-500">{errors.role.message}</p>
-            )}
+            {errors.role && <p className="text-sm text-red-500">{errors.role.message}</p>}
           </div>
 
           <Button type="submit" className="w-full" disabled={isLoading}>
