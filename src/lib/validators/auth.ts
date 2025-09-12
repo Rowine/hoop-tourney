@@ -19,5 +19,14 @@ export const loginUserSchema = z.object({
   password: z.string().min(1, 'Password is required'),
 });
 
+export const organizerApplicationSchema = z.object({
+  application_reason: z
+    .string()
+    .min(10, 'Please provide at least 10 characters explaining why you want to be an organizer')
+    .max(500, 'Application reason must be less than 500 characters'),
+  experience_description: z.string().optional(),
+});
+
 export type RegisterUserInput = z.infer<typeof registerUserSchema>;
 export type LoginUserInput = z.infer<typeof loginUserSchema>;
+export type OrganizerApplicationInput = z.infer<typeof organizerApplicationSchema>;
