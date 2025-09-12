@@ -123,13 +123,13 @@ export function RegisterForm() {
               onValueChange={(value) => setValue('role', value as any)}
               disabled={isLoading}
             >
-              <SelectTrigger>
+              <SelectTrigger className="w-full py-6">
                 <SelectValue placeholder="Select your role" />
               </SelectTrigger>
               <SelectContent>
                 {Object.entries(USER_ROLES).map(([key, value]) => (
                   <SelectItem key={value} value={value}>
-                    <div className="flex flex-col">
+                    <div className="flex flex-col items-start">
                       <span className="font-medium capitalize">{value}</span>
                       <span className="text-muted-foreground text-xs">
                         {ROLE_DESCRIPTIONS[value]}
