@@ -1,6 +1,6 @@
 import { createClient as createBrowserClient } from './client';
 import { RegisterUserInput, LoginUserInput } from '../validators/auth';
-import { User, UserRole } from '@/types/user';
+import { User, USER_ROLES, UserRole } from '@/types/user';
 
 export async function registerUser(input: RegisterUserInput) {
   const supabase = createBrowserClient();
@@ -26,11 +26,16 @@ export async function registerUser(input: RegisterUserInput) {
   }
 
   // Step 2: Create user profile
+
+  // For organizer role: start as guest, require application
+  // For other roles: assign the selected role directly
+  const actualRole = input.role === USER_ROLES.ORGANIZER ? 'guest' : input.role;
+
   const { error: profileError } = await supabase
     .from('users')
     .update({
       name: input.name,
-      role: input.role,
+      role: actualRole,
     })
     .eq('id', authData.user.id);
 
@@ -44,7 +49,7 @@ export async function registerUser(input: RegisterUserInput) {
       id: authData.user.id,
       email: input.email,
       name: input.name,
-      role: input.role,
+      role: actualRole,
     },
   };
 }
