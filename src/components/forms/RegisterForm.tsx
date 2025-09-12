@@ -41,8 +41,14 @@ export function RegisterForm() {
 
     try {
       await registerUser(data);
-      // Redirect to dashboard after successful registration
-      router.push('/dashboard');
+
+      // If user selected organizer role, redirect to application page
+      if (data.role === USER_ROLES.ORGANIZER) {
+        router.push('/organizer-application');
+      } else {
+        // Redirect to dashboard for other roles
+        router.push('/dashboard');
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Registration failed. Please try again.');
     } finally {
