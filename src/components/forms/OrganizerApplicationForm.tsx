@@ -38,11 +38,12 @@ export function OrganizerApplicationForm() {
   });
 
   // Check if there's pending registration data and redirect back to registration if not
+  // Also check if success is false to prevent redirecting to registration if success is true
   useEffect(() => {
-    if (!hasPendingRegistration) {
+    if (!success && !hasPendingRegistration) {
       router.push('/register');
     }
-  }, [hasPendingRegistration, router]);
+  }, [hasPendingRegistration, router, success]);
 
   const handleBackToRegistration = () => {
     clearPendingRegistration();
@@ -66,14 +67,13 @@ export function OrganizerApplicationForm() {
       // Then, create the organizer application
       await createOrganizerApplication(data);
 
-      // Clear pending registration and reset flow
-      resetRegistrationFlow();
-
       setSuccess(true);
-      // Redirect to dashboard after 2 seconds
+
+      // Redirect to dashboard and reset registration flow after showing success
       setTimeout(() => {
+        resetRegistrationFlow();
         router.push('/dashboard');
-      }, 5000);
+      }, 3000);
     } catch (err) {
       setError(
         err instanceof Error ? err.message : 'Application submission failed. Please try again.',
