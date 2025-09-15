@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { loginUserSchema, LoginUserInput } from '@/lib/validators/auth';
-import { loginUser } from '@/features/auth/api/client';
+import { loginUser } from '@/features/auth/lib/client';
 import AuthCard from '@/components/forms/AuthCard';
 import FormError from '@/components/forms/FormError';
 import SubmitButton from '@/components/forms/SubmitButton';

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { registerUserSchema, RegisterUserInput } from '@/lib/validators/auth';
-import { registerUser } from '@/features/auth/api/client';
+import { registerUser } from '@/features/auth/lib/client';
 import { USER_ROLES, ROLE_DESCRIPTIONS } from '@/types/user';
 import { useRegistrationActions } from '@/stores/registrationStore';
 import AuthCard from '@/components/forms/AuthCard';

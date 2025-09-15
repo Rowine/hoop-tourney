@@ -3,8 +3,8 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { organizerApplicationSchema, OrganizerApplicationInput } from '@/lib/validators/auth';
-import { createOrganizerApplication } from '@/features/organizer-application/server/actions';
-import { registerUser } from '@/features/auth/api/client';
+import { createOrganizerApplication } from '@/features/organizer-application/lib/actions';
+import { registerUser } from '@/features/auth/lib/client';
 import {
   usePendingRegistration,
   useHasPendingRegistration,
