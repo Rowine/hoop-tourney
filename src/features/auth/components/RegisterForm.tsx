@@ -32,7 +32,14 @@ export function RegisterForm() {
     setValue,
     watch,
     formState: { errors, isValid },
-  } = useZodForm<RegisterUserInput>({ schema: registerUserSchema });
+  } = useZodForm<RegisterUserInput>({
+    schema: registerUserSchema,
+    options: {
+      defaultValues: {
+        role: USER_ROLES.GUEST,
+      },
+    },
+  });
 
   const selectedRole = watch('role', USER_ROLES.GUEST);
 
