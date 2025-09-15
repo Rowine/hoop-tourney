@@ -31,3 +31,14 @@ export async function getUserRole(): Promise<UserRole | null> {
   const user = await getCurrentUser();
   return user?.role || null;
 }
+
+export async function logoutUserServer() {
+  const cookieStore = cookies();
+  const supabase = await createServerClient(cookieStore);
+
+  const { error } = await supabase.auth.signOut();
+
+  if (error) {
+    throw new Error(`Logout failed: ${error.message}`);
+  }
+}
