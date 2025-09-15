@@ -2,7 +2,7 @@
 
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { FieldError } from 'react-hook-form';
+import { FieldError, UseFormRegisterReturn } from 'react-hook-form';
 
 interface TextAreaFieldProps {
   id: string;
@@ -12,7 +12,7 @@ interface TextAreaFieldProps {
   placeholder?: string;
   helperText?: string;
   className?: string;
-  registerProps: any;
+  registerProps: UseFormRegisterReturn;
 }
 
 export function TextAreaField({

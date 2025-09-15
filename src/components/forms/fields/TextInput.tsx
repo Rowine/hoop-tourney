@@ -2,7 +2,7 @@
 
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { FieldError } from 'react-hook-form';
+import { FieldError, UseFormRegisterReturn } from 'react-hook-form';
 
 interface TextInputProps {
   id: string;
@@ -12,7 +12,7 @@ interface TextInputProps {
   type?: string;
   placeholder?: string;
   // spread {...register('field')} from RHF
-  registerProps: any;
+  registerProps: UseFormRegisterReturn;
 }
 
 export function TextInput({

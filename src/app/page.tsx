@@ -1,9 +1,3 @@
-import { DemoWidget } from "@/features/demo/components/DemoWidget";
-
 export default function Home() {
-  return (
-    <main className="min-h-screen w-full flex items-center justify-center p-6">
-      Hello
-    </main>
-  );
+  return <main className="flex min-h-screen w-full items-center justify-center p-6">Hello</main>;
 }

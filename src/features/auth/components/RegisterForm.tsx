@@ -99,14 +99,16 @@ export function RegisterForm() {
           </label>
           <Select
             value={selectedRole}
-            onValueChange={(value) => setValue('role', value as any, { shouldValidate: true })}
+            onValueChange={(value) =>
+              setValue('role', value as RegisterUserInput['role'], { shouldValidate: true })
+            }
             disabled={isLoading}
           >
             <SelectTrigger className="w-full py-6">
               <SelectValue placeholder="Select your role" />
             </SelectTrigger>
             <SelectContent>
-              {Object.entries(USER_ROLES).map(([key, value]) => (
+              {Object.entries(USER_ROLES).map(([, value]) => (
                 <SelectItem key={value} value={value}>
                   <div className="flex flex-col items-start">
                     <span className="font-medium capitalize">{value}</span>

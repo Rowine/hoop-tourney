@@ -15,7 +15,6 @@ import FormError from '@/components/forms/FormError';
 import SubmitButton from '@/components/forms/SubmitButton';
 import { useZodForm } from '@/components/forms/useZodForm';
 import { TextAreaField } from '@/components/forms/fields/TextAreaField';
-import { Alert } from '@/components/ui/alert';
 import { CheckCircle, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -135,7 +134,7 @@ export function OrganizerApplicationForm() {
           <h4 className="mb-2 text-sm font-medium">What happens next?</h4>
           <ul className="text-muted-foreground list-disc space-y-1 pl-5 text-sm">
             <li>Your application will be reviewed by an admin</li>
-            <li>If approved, you'll gain organizer privileges</li>
+            <li>If approved, you&apos;ll gain organizer privileges</li>
             <li>You can check your application status in your dashboard</li>
           </ul>
         </div>
