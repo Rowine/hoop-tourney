@@ -10,6 +10,7 @@ import {
   useHasPendingRegistration,
   useRegistrationActions,
 } from '@/stores/registrationStore';
+import { useUserStore } from '@/stores/userStore';
 import AuthCard from '@/components/forms/AuthCard';
 import FormError from '@/components/forms/FormError';
 import SubmitButton from '@/components/forms/SubmitButton';
@@ -27,6 +28,7 @@ export function OrganizerApplicationForm() {
   const pendingRegistration = usePendingRegistration();
   const hasPendingRegistration = useHasPendingRegistration();
   const { clearPendingRegistration, resetRegistrationFlow } = useRegistrationActions();
+  const { user, isLoading: userLoading } = useUserStore();
 
   const {
     register,
@@ -34,36 +36,60 @@ export function OrganizerApplicationForm() {
     formState: { errors, isValid },
   } = useZodForm<OrganizerApplicationInput>({ schema: organizerApplicationSchema });
 
+  // Determine if this is a registration flow or a logged-in user applying
+  const isRegistrationFlow = hasPendingRegistration;
+  const isLoggedInUser = user && !userLoading;
+
   useEffect(() => {
-    if (!success && !hasPendingRegistration) {
+    // Only redirect to register if:
+    // 1. Not in success state
+    // 2. Not a registration flow (no pending registration)
+    // 3. User is not logged in
+    // 4. User loading is complete
+    if (!success && !isRegistrationFlow && !isLoggedInUser && !userLoading) {
       router.push('/register');
     }
-  }, [hasPendingRegistration, router, success]);
+  }, [isRegistrationFlow, isLoggedInUser, router, success, userLoading]);
 
-  const handleBackToRegistration = () => {
-    clearPendingRegistration();
-    router.push('/register');
+  const handleBack = () => {
+    if (isRegistrationFlow) {
+      clearPendingRegistration();
+      router.push('/register');
+    } else {
+      router.push('/dashboard');
+    }
   };
 
   const onSubmit = async (data: OrganizerApplicationInput) => {
-    if (!pendingRegistration) {
-      setError('Registration data not found. Please start over.');
-      return;
-    }
-
     if (isLoading) return;
     setIsLoading(true);
     setError(null);
     setSuccess(false);
 
     try {
-      await registerUser(pendingRegistration);
-      await createOrganizerApplication(data);
-      setSuccess(true);
-      setTimeout(() => {
-        resetRegistrationFlow();
-        router.push('/dashboard');
-      }, 3000);
+      if (isRegistrationFlow) {
+        // Registration flow: register user first, then create application
+        if (!pendingRegistration) {
+          setError('Registration data not found. Please start over.');
+          return;
+        }
+        await registerUser(pendingRegistration);
+        await createOrganizerApplication(data);
+        setSuccess(true);
+        setTimeout(() => {
+          resetRegistrationFlow();
+          router.push('/dashboard');
+        }, 3000);
+      } else if (isLoggedInUser) {
+        // Logged-in user flow: just create the application
+        await createOrganizerApplication(data);
+        setSuccess(true);
+        setTimeout(() => {
+          router.push('/dashboard');
+        }, 3000);
+      } else {
+        setError('Unable to process application. Please try logging in again.');
+      }
     } catch (err) {
       setError(
         err instanceof Error ? err.message : 'Application submission failed. Please try again.',
@@ -72,6 +98,19 @@ export function OrganizerApplicationForm() {
       setIsLoading(false);
     }
   };
+
+  // Show loading state while user data is being loaded
+  if (userLoading) {
+    return (
+      <AuthCard title="Loading...">
+        <div className="space-y-4">
+          <div className="text-muted-foreground text-center">
+            Please wait while we load your information...
+          </div>
+        </div>
+      </AuthCard>
+    );
+  }
 
   if (success) {
     return (
@@ -96,7 +135,7 @@ export function OrganizerApplicationForm() {
           type="button"
           variant="ghost"
           size="sm"
-          onClick={handleBackToRegistration}
+          onClick={handleBack}
           className="mt-1 flex items-center gap-2"
         >
           <ArrowLeft className="h-4 w-4" />
