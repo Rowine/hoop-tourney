@@ -28,6 +28,20 @@ export default async function DashboardPage() {
           </p>
         </div>
 
+        {/* Admin Section */}
+        {user.role === 'admin' && (
+          <div className="mb-6 space-y-4 border-b pb-6">
+            <h2 className="text-xl font-semibold">Admin Controls</h2>
+            <div className="flex flex-col gap-3">
+              <Button asChild variant="default">
+                <Link href="/admin/organizer-applications">View All Organizer Applications</Link>
+              </Button>
+              {/* Add more admin controls here */}
+            </div>
+          </div>
+        )}
+
+        {/* Guest Section */}
         {user.role === 'guest' && (
           <div className="mt-4">
             <Button asChild>
